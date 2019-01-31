@@ -1,0 +1,80 @@
+﻿@using System
+@using System.Collections.Generic;
+@using System.Web.Mvc
+@using Import_Export_Excel.Models
+
+@{
+    ViewBag.Title = "Home Page";
+    string er_Message = "";
+    List<Student_Import> st = new List<Student_Import>();
+    if (ViewBag.StudentList != null)
+    {
+        st = new List<Student_Import>(ViewBag.StudentList);
+    }
+    if(ViewBag.Error != null)
+    {
+        er_Message = ViewBag.Error;
+    }
+}
+<div class="row">
+    <div class="jumbotron">
+        <h1>สร้างใบรายชื่อ</h1>
+        <p class="lead">กรุณาเลือก ไฟล์เอ็กเซล เพื่อสร้างใบรายชื่อ</p>
+        <p>
+            @using (Html.BeginForm("Import", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                if (er_Message != "0")
+                {
+                    @Html.Raw(ViewBag.Error)
+                }
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label>เลือกไฟล์ Excel</label><input type="file" id="excelFile" name="excelFile" />
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary btn-lg" id="btnImportfromExcel">Import from Excel</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary btn-lg" id="btnExportExcel">Export to Excel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </p>
+    </div>
+    <div class="jumbotron">
+        <div id="dataforFront_end" class="table-responsive">
+            <table id="tableStudent" class="table-striped table-bordered nowrap">
+                <thead>
+                    <tr>
+                        <th>รหัสนักศึกษา</th>
+                        <th>ชื่อนักศึกษา</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rows in st)
+                    {
+                        <tr>
+                            <td>@rows.Student_ID</td>
+                            <td>@rows.Student_Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
+}
